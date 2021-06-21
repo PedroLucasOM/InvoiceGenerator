@@ -6,6 +6,7 @@ import org.springframework.batch.item.file.*;
 import org.springframework.batch.item.file.builder.FlatFileItemWriterBuilder;
 import org.springframework.batch.item.file.builder.MultiResourceItemWriterBuilder;
 import org.springframework.batch.item.file.transform.LineAggregator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
@@ -18,11 +19,14 @@ import java.text.SimpleDateFormat;
 @Configuration
 public class FileInvoiceCreditCardWriterConfig {
 
+    @Value("${spring-batch-learning.output-folder}invoice")
+    private String path;
+
     @Bean
     public MultiResourceItemWriter<InvoiceCreditCard> invoiceCreditCardItemWriter() {
         return new MultiResourceItemWriterBuilder<InvoiceCreditCard>()
                 .name("invoiceCreditCardItemWriter")
-                .resource(new FileSystemResource("files/input"))
+                .resource(new FileSystemResource(path))
                 .itemCountLimitPerResource(1)
                 .resourceSuffixCreator(suffixCreator())
                 .delegate(invoiceCreditCardFileWriter())
@@ -32,7 +36,7 @@ public class FileInvoiceCreditCardWriterConfig {
     private FlatFileItemWriter<InvoiceCreditCard> invoiceCreditCardFileWriter() {
         return new FlatFileItemWriterBuilder<InvoiceCreditCard>()
                 .name("invoiceCreditCardFileWriter")
-                .resource(new FileSystemResource("files/output.txt"))
+                .resource(new FileSystemResource(path + ".txt"))
                 .lineAggregator(lineAggregator())
                 .headerCallback(headerCallback())
                 .footerCallback(footerCallback())
