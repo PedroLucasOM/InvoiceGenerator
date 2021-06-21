@@ -3,6 +3,7 @@ package com.system.invoicegenerator.step;
 import com.system.invoicegenerator.model.InvoiceCreditCard;
 import com.system.invoicegenerator.model.Transaction;
 import com.system.invoicegenerator.reader.InvoiceCreditCardReader;
+import com.system.invoicegenerator.writer.TotalTransactionsFooterCallback;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.ItemProcessor;
