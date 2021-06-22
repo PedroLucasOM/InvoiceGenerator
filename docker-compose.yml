@@ -9,7 +9,8 @@ services:
       MYSQL_ROOT_PASSWORD: ${DATABASE_SPRING_PASSWORD}
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-      timeout: 20s
+      interval: 10s
+      timeout: 2s
       retries: 10
   database_app:
     image: mysql:8
@@ -21,7 +22,8 @@ services:
       MYSQL_ROOT_PASSWORD: ${DATABASE_APP_PASSWORD}
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-      timeout: 20s
+      interval: 10s
+      timeout: 2s
       retries: 10
   app:
     build:

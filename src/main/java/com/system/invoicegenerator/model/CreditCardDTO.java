@@ -5,8 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Client {
-    private int id;
-    private String name;
-    private String address;
+public class CreditCardDTO {
+    private int creditCardNumber;
+    private Client client;
 }

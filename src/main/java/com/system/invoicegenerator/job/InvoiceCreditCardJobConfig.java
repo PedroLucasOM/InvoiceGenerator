@@ -6,6 +6,7 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @EnableBatchProcessing
@@ -15,6 +16,7 @@ public class InvoiceCreditCardJobConfig {
     @Autowired
     private JobBuilderFactory jobBuilderFactory;
 
+    @Bean
     public Job invoiceCreditCardJob(Step invoiceCreditCardStep) {
         return jobBuilderFactory
                 .get("invoiceCreditCardJob")
