@@ -16,12 +16,12 @@ public class ImportDataStepReaderConfig {
     @Bean
     public FlatFileItemReader<Object> importDataReader(
             @Value("file:${spring-batch-learning.input-folder}data.txt") Resource resource,
-            LineMapper<Object> lineMapper
+            LineMapper<Object> importDataLineMapper
     ) {
         return new FlatFileItemReaderBuilder<>()
                 .name("importDataReader")
                 .resource(resource)
-                .lineMapper(lineMapper)
+                .lineMapper(importDataLineMapper)
                 .build();
     }
 

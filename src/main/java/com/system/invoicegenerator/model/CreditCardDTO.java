@@ -1,11 +1,15 @@
 package com.system.invoicegenerator.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
 
 @Getter
 @Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class CreditCardDTO {
     private int creditCardNumber;
-    private Client client;
+    private ClientDTO client;
 }

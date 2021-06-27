@@ -17,10 +17,11 @@ public class InvoiceCreditCardJobConfig {
     private JobBuilderFactory jobBuilderFactory;
 
     @Bean
-    public Job invoiceCreditCardJob(Step invoiceCreditCardStep) {
+    public Job invoiceCreditCardJob(Step importDataStep, Step invoiceCreditCardStep) {
         return jobBuilderFactory
                 .get("invoiceCreditCardJob")
-                .start(invoiceCreditCardStep)
+                .start(importDataStep)
+                .next(invoiceCreditCardStep)
                 .incrementer(new RunIdIncrementer())
                 .build();
     }

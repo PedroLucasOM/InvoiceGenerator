@@ -1,28 +1,31 @@
 package com.system.invoicegenerator.reader;
 
-import com.system.invoicegenerator.model.InvoiceCreditCard;
-import com.system.invoicegenerator.model.Transaction;
+import com.system.invoicegenerator.model.InvoiceCreditCardDTO;
+import com.system.invoicegenerator.model.TransactionDTO;
 import org.springframework.batch.item.ExecutionContext;
-import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemStreamException;
 import org.springframework.batch.item.ItemStreamReader;
 
-public class InvoiceCreditCardReader implements ItemStreamReader<InvoiceCreditCard> {
+public class InvoiceCreditCardReader implements ItemStreamReader<InvoiceCreditCardDTO> {
 
-    private ItemStreamReader<Transaction> delegate;
-    private Transaction currentTransaction;
+    private ItemStreamReader<TransactionDTO> delegate;
+    private TransactionDTO currentTransaction;
+
+    public InvoiceCreditCardReader(ItemStreamReader<TransactionDTO> delegate) {
+        this.delegate = delegate;
+    }
 
     @Override
-    public InvoiceCreditCard read() throws Exception {
+    public InvoiceCreditCardDTO read() throws Exception {
         if (currentTransaction == null)
             currentTransaction = delegate.read();
 
-        InvoiceCreditCard invoiceCreditCard = null;
-        Transaction transaction = currentTransaction;
+        InvoiceCreditCardDTO invoiceCreditCard = null;
+        TransactionDTO transaction = currentTransaction;
         currentTransaction = null;
 
         if (transaction != null) {
-            invoiceCreditCard = new InvoiceCreditCard();
+            invoiceCreditCard = new InvoiceCreditCardDTO();
             invoiceCreditCard.setCreditCard(transaction.getCreditCard());
             invoiceCreditCard.setClient(transaction.getCreditCard().getClient());
             invoiceCreditCard.getTransactions().add(transaction);
@@ -34,17 +37,13 @@ public class InvoiceCreditCardReader implements ItemStreamReader<InvoiceCreditCa
         return invoiceCreditCard;
     }
 
-    private boolean isRelatedTransaction(Transaction transaction) throws Exception {
+    private boolean isRelatedTransaction(TransactionDTO transaction) throws Exception {
         return peek() != null && transaction.getCreditCard().getCreditCardNumber() == currentTransaction.getCreditCard().getCreditCardNumber();
     }
 
-    private Transaction peek() throws Exception {
+    private TransactionDTO peek() throws Exception {
         currentTransaction = delegate.read();
         return currentTransaction;
-    }
-
-    public InvoiceCreditCardReader(ItemStreamReader<Transaction> delegate) {
-        this.delegate = delegate;
     }
 
     @Override

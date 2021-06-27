@@ -1,8 +1,8 @@
 package com.system.invoicegenerator.reader;
 
-import com.system.invoicegenerator.model.Client;
-import com.system.invoicegenerator.model.CreditCard;
-import com.system.invoicegenerator.model.Transaction;
+import com.system.invoicegenerator.model.ClientDTO;
+import com.system.invoicegenerator.model.CreditCardDTO;
+import com.system.invoicegenerator.model.TransactionDTO;
 import org.springframework.batch.item.database.JdbcCursorItemReader;
 import org.springframework.batch.item.database.builder.JdbcCursorItemReaderBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,9 +18,9 @@ import java.sql.SQLException;
 public class TransactionItemReaderConfig {
 
     @Bean
-    public JdbcCursorItemReader<Transaction> transactionItemReader(
+    public JdbcCursorItemReader<TransactionDTO> transactionItemReader(
             @Qualifier("appDataSource") DataSource dataSource) {
-        return new JdbcCursorItemReaderBuilder<Transaction>()
+        return new JdbcCursorItemReaderBuilder<TransactionDTO>()
                 .name("transactionItemReader")
                 .dataSource(dataSource)
                 .sql("select * from transaction join credit_card using (credit_card_number) order by credit_card_number")
@@ -28,18 +28,18 @@ public class TransactionItemReaderConfig {
                 .build();
     }
 
-    private RowMapper<Transaction> rowMapperTransaction() {
-        return new RowMapper<Transaction>() {
+    private RowMapper<TransactionDTO> rowMapperTransaction() {
+        return new RowMapper<TransactionDTO>() {
 
             @Override
-            public Transaction mapRow(ResultSet rs, int rowNum) throws SQLException {
-                CreditCard creditCard = new CreditCard();
+            public TransactionDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+                CreditCardDTO creditCard = new CreditCardDTO();
                 creditCard.setCreditCardNumber(rs.getInt("credit_card_number"));
-                Client client = new Client();
+                ClientDTO client = new ClientDTO();
                 client.setId(rs.getInt("client"));
                 creditCard.setClient(client);
 
-                Transaction transaction = new Transaction();
+                TransactionDTO transaction = new TransactionDTO();
                 transaction.setId(rs.getInt("id"));
                 transaction.setCreditCard(creditCard);
                 transaction.setDate(rs.getDate("date"));

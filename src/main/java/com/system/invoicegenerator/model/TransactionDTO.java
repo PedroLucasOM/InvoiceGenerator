@@ -1,15 +1,19 @@
 package com.system.invoicegenerator.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
+
 @Getter
 @Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class TransactionDTO {
     private int id;
-    private CreditCard creditCard;
+    private CreditCardDTO creditCard;
     private String description;
     private Double value;
     private Date date;

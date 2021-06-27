@@ -1,7 +1,7 @@
 package com.system.invoicegenerator.step;
 
-import com.system.invoicegenerator.model.InvoiceCreditCard;
-import com.system.invoicegenerator.model.Transaction;
+import com.system.invoicegenerator.model.InvoiceCreditCardDTO;
+import com.system.invoicegenerator.model.TransactionDTO;
 import com.system.invoicegenerator.reader.InvoiceCreditCardReader;
 import com.system.invoicegenerator.writer.TotalTransactionsFooterCallback;
 import org.springframework.batch.core.Step;
@@ -21,13 +21,13 @@ public class InvoiceCreditCardStepConfig {
 
     @Bean
     public Step invoiceCreditCardStep(
-            ItemStreamReader<Transaction> transactionItemReader,
-            ItemProcessor<InvoiceCreditCard, InvoiceCreditCard> loadClientDataProcessor,
-            ItemWriter<InvoiceCreditCard> invoiceCreditCardItemWriter,
+            ItemStreamReader<TransactionDTO> transactionItemReader,
+            ItemProcessor<InvoiceCreditCardDTO, InvoiceCreditCardDTO> loadClientDataProcessor,
+            ItemWriter<InvoiceCreditCardDTO> invoiceCreditCardItemWriter,
             TotalTransactionsFooterCallback listener) {
         return stepBuilderFactory
                 .get("invoiceCreditCardStep")
-                .<InvoiceCreditCard, InvoiceCreditCard>chunk(1)
+                .<InvoiceCreditCardDTO, InvoiceCreditCardDTO>chunk(1)
                 .reader(new InvoiceCreditCardReader(transactionItemReader))
                 .processor(loadClientDataProcessor)
                 .writer(invoiceCreditCardItemWriter)

@@ -1,7 +1,7 @@
 package com.system.invoicegenerator.writer;
 
-import com.system.invoicegenerator.model.InvoiceCreditCard;
-import com.system.invoicegenerator.model.Transaction;
+import com.system.invoicegenerator.model.InvoiceCreditCardDTO;
+import com.system.invoicegenerator.model.TransactionDTO;
 import org.springframework.batch.item.file.*;
 import org.springframework.batch.item.file.builder.FlatFileItemWriterBuilder;
 import org.springframework.batch.item.file.builder.MultiResourceItemWriterBuilder;
@@ -23,8 +23,8 @@ public class FileInvoiceCreditCardWriterConfig {
     private String path;
 
     @Bean
-    public MultiResourceItemWriter<InvoiceCreditCard> invoiceCreditCardItemWriter() {
-        return new MultiResourceItemWriterBuilder<InvoiceCreditCard>()
+    public MultiResourceItemWriter<InvoiceCreditCardDTO> invoiceCreditCardItemWriter() {
+        return new MultiResourceItemWriterBuilder<InvoiceCreditCardDTO>()
                 .name("invoiceCreditCardItemWriter")
                 .resource(new FileSystemResource(path))
                 .itemCountLimitPerResource(1)
@@ -33,8 +33,8 @@ public class FileInvoiceCreditCardWriterConfig {
                 .build();
     }
 
-    private FlatFileItemWriter<InvoiceCreditCard> invoiceCreditCardFileWriter() {
-        return new FlatFileItemWriterBuilder<InvoiceCreditCard>()
+    private FlatFileItemWriter<InvoiceCreditCardDTO> invoiceCreditCardFileWriter() {
+        return new FlatFileItemWriterBuilder<InvoiceCreditCardDTO>()
                 .name("invoiceCreditCardFileWriter")
                 .resource(new FileSystemResource(path + ".txt"))
                 .lineAggregator(lineAggregator())
@@ -59,11 +59,11 @@ public class FileInvoiceCreditCardWriterConfig {
         };
     }
 
-    private LineAggregator<InvoiceCreditCard> lineAggregator() {
-        return new LineAggregator<InvoiceCreditCard>() {
+    private LineAggregator<InvoiceCreditCardDTO> lineAggregator() {
+        return new LineAggregator<InvoiceCreditCardDTO>() {
 
             @Override
-            public String aggregate(InvoiceCreditCard invoiceCreditCard) {
+            public String aggregate(InvoiceCreditCardDTO invoiceCreditCard) {
                 StringBuilder writer = new StringBuilder();
                 writer.append(String.format("Nome: %s\n", invoiceCreditCard.getClient().getName()));
                 writer.append(String.format("Endereço: %s\n\n\n", invoiceCreditCard.getClient().getAddress()));
@@ -72,7 +72,7 @@ public class FileInvoiceCreditCardWriterConfig {
                 writer.append("DATA DESCRICAO VALOR\n");
                 writer.append("-------------------------------------------------------------------------------------------------------------------------\n");
 
-                for (Transaction transaction : invoiceCreditCard.getTransactions()) {
+                for (TransactionDTO transaction : invoiceCreditCard.getTransactions()) {
                     writer.append(String.format("\n[%10s] %-80s - %s",
                             new SimpleDateFormat("dd/MM/yyyy").format(transaction.getDate()),
                             transaction.getDescription(),

@@ -5,19 +5,21 @@ CREATE DATABASE app_batch;
 USE app_batch;
 
 DROP TABLE IF EXISTS `credit_card`;
-CREATE TABLE `credit_card` (
+CREATE TABLE `credit_card`
+(
     `credit_card_number` int NOT NULL,
-    `client` int NOT NULL,
+    `client`             int NOT NULL,
     PRIMARY KEY (`credit_card_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `transaction`;
-CREATE TABLE `transaction` (
-    `id` int NOT NULL,
-    `credit_card_number` int NOT NULL,
-    `description` varchar(255) NOT NULL,
-    `value` float NOT NULL,
-    `date` date NOT NULL,
+CREATE TABLE `transaction`
+(
+    `id`                 int          NOT NULL,
+    `credit_card_number` int          NOT NULL,
+    `description`        varchar(255) NOT NULL,
+    `value`              float        NOT NULL,
+    `date`               date         NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

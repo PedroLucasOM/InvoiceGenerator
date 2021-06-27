@@ -1,6 +1,6 @@
 package com.system.invoicegenerator.writer;
 
-import com.system.invoicegenerator.model.InvoiceCreditCard;
+import com.system.invoicegenerator.model.InvoiceCreditCardDTO;
 import org.springframework.batch.core.annotation.AfterChunk;
 import org.springframework.batch.core.annotation.BeforeWrite;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -20,8 +20,8 @@ public class TotalTransactionsFooterCallback implements FlatFileFooterCallback {
     }
 
     @BeforeWrite
-    public void beforeWrite(List<InvoiceCreditCard> invoices) {
-        for (InvoiceCreditCard invoiceCreditCard : invoices)
+    public void beforeWrite(List<InvoiceCreditCardDTO> invoices) {
+        for (InvoiceCreditCardDTO invoiceCreditCard : invoices)
             total += invoiceCreditCard.getTotalValue();
     }
 
