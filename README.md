@@ -64,7 +64,7 @@ docker-compose up -d --build
 
 ## Usage
 
-#### Seeing the valid records in the 
+### Seeing the valid records in the 
 
 **Credit Card records:**
 
@@ -78,7 +78,7 @@ docker-compose exec database_app mysql -u root -papp#1234 -e "select * from app_
 docker-compose exec database_app mysql -u root -papp#1234 -e "select * from app_batch.transaction;"
 ```
 
-#### Seeing the invalid records in the generated file
+### Seeing the invalid records in the generated file
 
 Navigate to **/files/output/** inside of project root and open the files that contains **"invoice"** in their names. You will see the invoices layout and their transactions.
 
