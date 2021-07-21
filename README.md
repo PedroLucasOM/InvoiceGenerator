@@ -24,10 +24,6 @@
 2. [About the Project](https://github.com/PedroLucasOM/InvoiceGenerator#2-about-the-project)
     - [Implemented Job](https://github.com/PedroLucasOM/InvoiceGenerator#implemented-job)
     - [Prerequisites](https://github.com/PedroLucasOM/InvoiceGenerator#prerequisites)
-    - [Configuration](https://github.com/PedroLucasOM/InvoiceGenerator#configuration)
-      - [Windows](https://github.com/PedroLucasOM/InvoiceGenerator#windows)
-      - [Linux](https://github.com/PedroLucasOM/InvoiceGenerator#linux)
-      - [Mac](https://github.com/PedroLucasOM/InvoiceGenerator#mac)
     - [Run](https://github.com/PedroLucasOM/InvoiceGenerator#run)
     - [Usage](https://github.com/PedroLucasOM/InvoiceGenerator#usage)
     - [Stop](https://github.com/PedroLucasOM/InvoiceGenerator#stop)
@@ -48,26 +44,15 @@ To learn more about this framework, view this article on the Notion:
 
 ## Implemented Job
 
+It's responsible to execute two steps that will import credit cards and transactions from a .txt file to a configured Datasource. After it, it will gerenate multiples files to each credit card invoice with their respective transactions.
 
+This is the file that will be imported:
+
+- [data.txt](https://github.com/PedroLucasOM/InvoiceGenerator/blob/master/files/input/data.txt)
 
 ## Prerequisites
 
 - docker
-
-## Configuration
-
-
-### Windows
-
-
-
-### Linux
-
-
-
-### Mac
-
-
 
 ## Run
 
@@ -79,7 +64,23 @@ docker-compose up -d --build
 
 ## Usage
 
+#### Seeing the valid records in the 
 
+**Credit Card records:**
+
+```sh
+docker-compose exec database_app mysql -u root -papp#1234 -e "select * from app_batch.credit_card;"
+```
+
+**Transaction records:**
+
+```sh
+docker-compose exec database_app mysql -u root -papp#1234 -e "select * from app_batch.transaction;"
+```
+
+#### Seeing the invalid records in the generated file
+
+Navigate to **/files/output/** inside of project root and open the files that contains **"invoice"** in their names. You will see the invoices layout and their transactions.
 
 ## Stop
 
